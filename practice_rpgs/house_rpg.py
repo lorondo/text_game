@@ -1,3 +1,4 @@
 inventory = []
 
 currentRoom = "Hall"
+
