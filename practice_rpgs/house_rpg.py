@@ -4,17 +4,19 @@ currentRoom = "Hall"
 
 rooms = {
   "Hall": {
-    "south": "Kitchen" ## when you're in the Hall, the value of south is Kitchen
+    "south": "Kitchen" # when you're in the Hall, the value of south is Kitchen
   },
   "Kitchen": {
-    "north": "Hall" ## when you're in the Kitchen, the value of north is Hall
+    "north": "Hall", # when you're in the Kitchen, the value of north is Hall
+    "item": "chainsaw"
   } 
 }
 
-print("I am in the", currentRoom)
+while True:
+  move = input(">") # "get sword", "go north"
+  move = move.split(" ", 1) # "get sword" -> ["get", "sword"]
+  # move[0] -> "get"
+  if move[0] == "get":
+    if move[1] == rooms[currentRoom]["item"]:
+  
 
-directions = rooms[currentRoom]
-
-currentRoom = directions
-
-print("I am NOW in the", currentRoom)
