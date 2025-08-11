@@ -1,3 +1,5 @@
+import os
+
 def showInstructions():
   #print a main menu and the commands
   print('''
@@ -13,14 +15,15 @@ def status():
   print(f"Current Room: {currentRoom}")
   print(f"Inventory: {inventory}")
 
-  if "item" in rooms[currentRoom]:
+  if "item" in rooms[currentRoom] and rooms[currentRoom]["item"]:
     room_item = rooms[currentRoom]["item"]
     print(f"You see a {room_item}!")
 
+  print("--------------")
 
 inventory = []
 
-currentRoom = "Kitchen"
+currentRoom = "Hall"
 
 rooms = {
   "Garden": {
@@ -33,7 +36,8 @@ rooms = {
     "item": "potion"
   },
   "Hall": {
-    "south": "Kitchen" # when you're in the Hall, the value of south is Kitchen
+    "south": "Kitchen", # when you're in the Hall, the value of south is Kitchen
+    "east": "Dining Room",
     "item": "key"
   },
   "Kitchen": {
@@ -51,6 +55,8 @@ while True:
   move = input(">") # "get sword", "go north"
   move = move.split(" ", 1) # "get sword" -> ["get", "sword"]
   
+  os.system("cls")
+
   # move[0] -> "get"
   if move[0] == "get":
     if move[1] == rooms[currentRoom]["item"]:
@@ -70,11 +76,18 @@ while True:
       print(f"You can't go {move[1]}!")
   
   # victory condition 1: escaping the house through the garden!
-  if "key" in inventory and "potion" in inventory:
-    print("You escape from the mansion with the magic key and potion!")
+  if "key" in inventory and "potion" in inventory and currentRoom == "Garden":
+    print("Through the garden, you escape from the mansion with the magic key and potion!")
     break # ends while loop
 
   # loss condition: getting eaten by the monster!
-
-  
+  if "item" in rooms[currentRoom] and rooms[currentRoom]["item"] == "monster":
+    # victory condition 2: vanquishing the monster!
+    if "chainsaw" in inventory:
+      print("You defeat the monster with the chainsaw! YOU WIN!")
+      break
+    else:
+      print("You have been eaten!")
+      print("GAME OVER!")
+      break
 
