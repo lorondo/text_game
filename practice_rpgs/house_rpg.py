@@ -1,16 +1,38 @@
+def showInstructions():
+  #print a main menu and the commands
+  print('''
+    RPG Game
+    ========
+    Commands:
+        go [direction] (example: go north)
+        get [item]
+      ''')
+
 inventory = []
 
 currentRoom = "Kitchen"
 
 rooms = {
+  "Garden": {
+    "north": "Dining Room",
+    "item": "chainsaw"
+  },
+  "Dining Room": {
+    "south": "Garden",
+    "west": "Hall",
+    "item": "potion"
+  },
   "Hall": {
     "south": "Kitchen" # when you're in the Hall, the value of south is Kitchen
+    "item": "key"
   },
   "Kitchen": {
     "north": "Hall", # when you're in the Kitchen, the value of north is Hall
-    "item": "chainsaw"
+    "item": "monster"
   } 
 }
+
+showInstructions()
 
 while True:
   print(f"You are in the {currentRoom}!")
@@ -32,7 +54,7 @@ while True:
   if move[0] == "go":
     if move[1] in rooms[currentRoom]:
       currentRoom = rooms[currentRoom][move[1]]
-      print(f"You are now in the {currentRoom}!")
+      print(f"You are now in the {currentRoom}!") 
     else: 
       print(f"You can't go {move[1]}!")
 
