@@ -8,6 +8,16 @@ def showInstructions():
         get [item]
       ''')
 
+def status():
+  print("--------------")
+  print(f"Current Room: {currentRoom}")
+  print(f"Inventory: {inventory}")
+
+  if "item" in rooms[currentRoom]:
+    room_item = rooms[currentRoom]["item"]
+    print(f"You see a {room_item}!")
+
+
 inventory = []
 
 currentRoom = "Kitchen"
@@ -35,7 +45,8 @@ rooms = {
 showInstructions()
 
 while True:
-  print(f"You are in the {currentRoom}!")
+
+  status()
 
   move = input(">") # "get sword", "go north"
   move = move.split(" ", 1) # "get sword" -> ["get", "sword"]
@@ -57,6 +68,13 @@ while True:
       print(f"You are now in the {currentRoom}!") 
     else: 
       print(f"You can't go {move[1]}!")
+  
+  # victory condition 1: escaping the house through the garden!
+  if "key" in inventory and "potion" in inventory:
+    print("You escape from the mansion with the magic key and potion!")
+    break # ends while loop
+
+  # loss condition: getting eaten by the monster!
 
   
 
