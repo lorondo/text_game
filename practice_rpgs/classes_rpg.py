@@ -49,4 +49,17 @@ def battle(player, enemy):
             print(f"The {enemy.name} strikes you for {enemy_damage} damage.")
 
     if player.is_alive():
-        print()
+        print("\nVictory! You have defeated the", enemy.name + "!")
+        player.gold += enemy.gold_reward
+        print(f"You loot {enemy.gold_reward} gold from the {enemy.name}.")
+    else:
+        print("\nYou have been slain by the", enemy.name + "!")
+        print("Game Over")
+
+player_name = input("Enter your name: ")
+player = Player(player_name)
+
+#name, health, attack, defense, reward
+enemy1 = Enemy("Orc", 30, 8, 2, 10)
+enemy2 = Enemy("Giant Spider", 40, 12, 4, 15)
+enemy3 = Enemy("Sorcerer", 50, 15, 5, 20)
