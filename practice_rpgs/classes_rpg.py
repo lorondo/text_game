@@ -18,7 +18,7 @@ class Enemy:
     def __init__(self, name, health, attack, defense, gold_reward):
         self.name = name
         self.health = health
-        self.attacking = attack
+        self.attack = attack
         self.defense = defense
         self.gold_reward = gold_reward
     
@@ -29,7 +29,7 @@ class Enemy:
         self.health -= damage
 
     def print_status(self):
-        print(f"{self.name}: Health = {self.health}, Attacking = {self.attacking}, Defense = {self.defense}")
+        print(f"{self.name}: Health = {self.health}, Attack = {self.attack}, Defense = {self.defense}")
 
 def battle(player, enemy):
     print("A fierce", enemy.name, "attacks!")
@@ -50,7 +50,7 @@ def battle(player, enemy):
 
     if player.is_alive():
         print("\nVictory! You have defeated the", enemy.name + "!")
-        player.gold += enemy.gold_reward
+        player.treasure += enemy.gold_reward
         print(f"You loot {enemy.gold_reward} gold from the {enemy.name}.")
     else:
         print("\nYou have been slain by the", enemy.name + "!")
@@ -66,10 +66,11 @@ enemy3 = Enemy("Sorcerer", 50, 15, 5, 20)
 
 enemies = [enemy1, enemy2, enemy3]
 
-print("\nWelciome to the Fantasy Adventure RPG!\n")
+print("\nWelcome to the Fantasy Adventure RPG!\n")
 
 while player.is_alive():
     enemy = random.choice(enemies)
     battle(player, enemy)
     if not input("Do you want to play another game? (yes/no): ").lower().startswith("y"):
+        print("GAME OVER!")
         break
