@@ -11,7 +11,7 @@ class Player:
     def is_alive(self):
         return self.health > 0
     
-    def print_status(Self):
+    def print_status(self):
         print(f"{self.name}: Health = {self.health}, Attack = {self.attack}, Defense = {self.defense}, Treasure = {self.treasure}")
 
 class Enemy:
