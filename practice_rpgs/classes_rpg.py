@@ -72,5 +72,6 @@ while player.is_alive():
     enemy = random.choice(enemies)
     battle(player, enemy)
     if not input("Do you want to play another game? (yes/no): ").lower().startswith("y"):
+        player.print_status()
         print("GAME OVER!")
         break
