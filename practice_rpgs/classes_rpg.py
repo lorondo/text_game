@@ -63,3 +63,13 @@ player = Player(player_name)
 enemy1 = Enemy("Orc", 30, 8, 2, 10)
 enemy2 = Enemy("Giant Spider", 40, 12, 4, 15)
 enemy3 = Enemy("Sorcerer", 50, 15, 5, 20)
+
+enemies = [enemy1, enemy2, enemy3]
+
+print("\nWelciome to the Fantasy Adventure RPG!\n")
+
+while player.is_alive():
+    enemy = random.choice(enemies)
+    battle(player, enemy)
+    if not input("Do you want to play another game? (yes/no): ").lower().startswith("y"):
+        break
