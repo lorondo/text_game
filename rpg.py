@@ -1,4 +1,4 @@
-import random
+# import random
 import os
 
 # player stats
@@ -13,7 +13,7 @@ class Player:
         return self.health > 0
     
     def print_status(self):
-        print(f"{self.name}: Health = {self.health}, Attack = {self.attack}, Defense = {self.defense}, Treasure = {self.treasure}")
+        print(f"{self.name}: Health = {self.health}, Attack = {self.attack}, Defense = {self.defense}")
 
 # enemy stats
 class Enemy:
@@ -52,6 +52,7 @@ def battle(player, enemy):
 
     if player.is_alive():
         print("\nVictory! You have defeated the", enemy.name + "!")
+        rooms[currentRoom]["enemy"] = ""
 
     else:
         print("\nYou have been slain by the", enemy.name + "!")
@@ -63,8 +64,8 @@ def showInstructions():
     RPG Game
     ========
     Commands:
-        go to [direction] (example: )
-        pick up [item]
+        enter [destination] (example: enter door 1)
+        get [item]
       ''')
 
 def status():
@@ -72,9 +73,17 @@ def status():
   print(f"Current Room: {currentRoom}")
   print(f"Inventory: {inventory}")
 
+  if "description" in rooms[currentRoom]:
+     room_description = rooms[currentRoom]["description"]
+     print(room_description)
+
   if "item" in rooms[currentRoom] and rooms[currentRoom]["item"]:
     room_item = rooms[currentRoom]["item"]
     print(f"You see a {room_item}!")
+
+  if "enemy" in rooms[currentRoom] and rooms[currentRoom]["enemy"]:
+     room_enemy = rooms[currentRoom]["enemy"]
+     battle(player, room_enemy)
 
   print("--------------")
 
@@ -85,19 +94,30 @@ currentRoom = "Dungeon Room One"
 rooms = {
     # Beginning Dungeon
     "Dungeon Room One": {
-        "door": "Dungeon Hub"
+        "door": "Dungeon Hub",
+        "item": "key",
+        "description": "You are now in Dungeon Room One. There is one door in this room."
     },
     "Dungeon Room Two": {
-        "door": "Dungeon Hub"
+        "door": "Dungeon Hub",
+        "item": "cake",
+        "description": "You are now in Dungeon Room Two. There is one door in this room."
     },
     "Dungeon Room Three": {
-        "door": "Dungeon Hub"
+        "door": "Dungeon Hub",
+        "item": "grapes",
+        "description": "You are now in Dungeon Room Three. There is one door in this room."
     },
     "Dungeon Room Four": {
-        "door": "Dungeon Hub"
+        "door": "Dungeon Hub",
+        "item": "orange",
+        "description": "You are now in Dungeon Room Four. There is one door in this room."
     },
     "Dungeon Room Five": {
-        "door": "Dungeon Hub"
+        "door": "Dungeon Hub",
+        "item": "apple",
+        "description": "You are now in Dungeon Room Five. There is one door in this room.",
+        "enemy" : Enemy("Werewolf", 5, 1, 1)
     },
     "Dungeon Hub": {
         "door 1": "Dungeon Room One",
@@ -105,16 +125,21 @@ rooms = {
         "door 3": "Dungeon Room Three",
         "door 4": "Dungeon Room Four",
         "door 5": "Dungeon Room Five",
+        "item": "banana",
+        "description": "You are now in the Dungeon Hub. There are five dungeon doors in this room, each numbered one through five. From here, you can enter door 1, door 2, door 3, door 4, or door 5."
     }
 }
 
 showInstructions()
 
-while True:
+player_name = input("Enter your name: ")
+player = Player(player_name)
+
+while player.is_alive():
 
   status()
 
-  move = input(">") # "get sword", "go north"
+  move = input(">") # "get sword", "enter door one"
   move = move.split(" ", 1) # "get sword" -> ["get", "sword"]
   
   os.system("cls")
@@ -129,10 +154,10 @@ while True:
     else:
       print(f"You don't see a {move[1]} here!")
 
-  # move[0] -> "go"
-  if move[0] == "go":
+  # move[0] -> "enter"
+  if move[0] == "enter":
     if move[1] in rooms[currentRoom]:
       currentRoom = rooms[currentRoom][move[1]]
-      print(f"You are now in the {currentRoom}!") 
+      print(f"You are now in {currentRoom}!") 
     else: 
       print(f"You can't go {move[1]}!")
