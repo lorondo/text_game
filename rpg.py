@@ -1,6 +1,7 @@
 import random
 import os
 
+# player stats
 class Player:
     def __init__(self, name):
         self.name = name
@@ -14,6 +15,7 @@ class Player:
     def print_status(self):
         print(f"{self.name}: Health = {self.health}, Attack = {self.attack}, Defense = {self.defense}, Treasure = {self.treasure}")
 
+# enemy stats
 class Enemy:
     def __init__(self, name, health, attack, defense):
         self.name = name
@@ -30,6 +32,7 @@ class Enemy:
     def print_status(self):
         print(f"{self.name}: Health = {self.health}, Attack = {self.attack}, Defense = {self.defense}")
 
+# battle function
 def battle(player, enemy):
     print("A fierce", enemy.name, "attacks!")
     while player.is_alive() and enemy.is_alive():
@@ -60,8 +63,8 @@ def showInstructions():
     RPG Game
     ========
     Commands:
-        go [direction] (example: go north)
-        get [item]
+        go to [direction] (example: )
+        pick up [item]
       ''')
 
 def status():
@@ -77,30 +80,59 @@ def status():
 
 inventory = []
 
-currentRoom = "Dungeon Room 1"
+currentRoom = "Dungeon Room One"
 
 rooms = {
     # Beginning Dungeon
-    "Dungeon Room 1": {
+    "Dungeon Room One": {
         "door": "Dungeon Hub"
     },
-    "Dungeon Room 2": {
+    "Dungeon Room Two": {
         "door": "Dungeon Hub"
     },
-    "Dungeon Room 3": {
+    "Dungeon Room Three": {
         "door": "Dungeon Hub"
     },
-    "Dungeon Room 4": {
+    "Dungeon Room Four": {
         "door": "Dungeon Hub"
     },
-    "Dungeon Room 5": {
+    "Dungeon Room Five": {
         "door": "Dungeon Hub"
     },
     "Dungeon Hub": {
-        "door 1": "Dungeon Room 1",
-        "door 2": "Dungeon Room 2",
-        "door 3": "Dungeon Room 3",
-        "door 4": "Dungeon Room 4",
-        "door 5": "Dungeon Room 5",
+        "door 1": "Dungeon Room One",
+        "door 2": "Dungeon Room Two",
+        "door 3": "Dungeon Room Three",
+        "door 4": "Dungeon Room Four",
+        "door 5": "Dungeon Room Five",
     }
 }
+
+showInstructions()
+
+while True:
+
+  status()
+
+  move = input(">") # "get sword", "go north"
+  move = move.split(" ", 1) # "get sword" -> ["get", "sword"]
+  
+  os.system("cls")
+
+  # move[0] -> "get"
+  if move[0] == "get":
+    if move[1] == rooms[currentRoom]["item"]:
+      print(f"You got a {move[1]}!")
+      inventory.append(move[1])
+      rooms[currentRoom]["item"] = ""
+      print(inventory)
+    else:
+      print(f"You don't see a {move[1]} here!")
+
+  # move[0] -> "go"
+  if move[0] == "go":
+    if move[1] in rooms[currentRoom]:
+      currentRoom = rooms[currentRoom][move[1]]
+      print(f"You are now in the {currentRoom}!") 
+    else: 
+      print(f"You can't go {move[1]}!")
