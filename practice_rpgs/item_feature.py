@@ -15,23 +15,6 @@ class Player:
     def print_status(self):
         print(f"{self.name}: Health = {self.health}, Attack = {self.attack}, Defense = {self.defense}")
 
-# enemy stats
-class Enemy:
-    def __init__(self, name, health, attack, defense):
-        self.name = name
-        self.health = health
-        self.attack = attack
-        self.defense = defense
-    
-    def is_alive(self):
-        return self.health > 0
-    
-    def take_damage(self, damage):
-        self.health -= damage
-
-    def print_status(self):
-        print(f"{self.name}: Health = {self.health}, Attack = {self.attack}, Defense = {self.defense}")
-
 # item stats
 class Item:
    def __init__(self, name, health_bonus, attack_bonus, defense_bonus):
@@ -46,32 +29,6 @@ def is_equipped(player, item):
          player.health += item.health_bonus
          player.attack += item.attack_bonus
          player.defense += item.defense_bonus
-
-# battle function
-def battle(player, enemy):
-    print("A fierce", enemy.name, "attacks!")
-    while player.is_alive() and enemy.is_alive():
-        print("\n" + "-" * 20)
-        player.print_status()
-        enemy.print_status()
-        print("-" * 20 + "\n")
-
-        player_damage = max(0, player.attack)
-        enemy.take_damage(player_damage)
-        print(f"You hit the {enemy.name} for {player_damage} damage.")
-
-        if enemy.is_alive():
-            enemy_damage = max(0, enemy.attack - player.defense)
-            player.health -= enemy_damage
-            print(f"The {enemy.name} strikes you for {enemy_damage} damage.")
-
-    if player.is_alive():
-        print("\nVictory! You have defeated the", enemy.name + "!")
-        rooms[currentRoom]["enemy"] = ""
-
-    else:
-        print("\nYou have been slain by the", enemy.name + "!")
-        print("Game Over")
 
 def showInstructions():
   #print a main menu and the commands
@@ -96,10 +53,6 @@ def status():
     room_item = rooms[currentRoom]["item"]
     print(f"You see a {room_item}!")
 
-  if "enemy" in rooms[currentRoom] and rooms[currentRoom]["enemy"]:
-     room_enemy = rooms[currentRoom]["enemy"]
-     battle(player, room_enemy)
-
   print("--------------")
 
 inventory = []
@@ -110,7 +63,7 @@ rooms = {
     # Beginning Dungeon
     "Dungeon Room One": {
         "door": "Dungeon Hub",
-        "item": "key",
+        "item": Item("Shield", 0, 0, 3),
         "description": "You are now in Dungeon Room One. There is one door in this room."
     },
     "Dungeon Room Two": {
@@ -123,19 +76,12 @@ rooms = {
         "item": "grapes",
         "description": "You are now in Dungeon Room Three. There is one door in this room."
     },
-    "Dungeon Room Four": {
-        "door": "Dungeon Hub",
-        "item": "apple",
-        "description": "You are now in Dungeon Room Four. There is one door in this room.",
-        "enemy" : Enemy("Werewolf", 5, 1, 1)
-    },
     "Dungeon Hub": {
         "door 1": "Dungeon Room One",
         "door 2": "Dungeon Room Two",
         "door 3": "Dungeon Room Three",
-        "door 4": "Dungeon Room Four",
         "item": "banana",
-        "description": "You are now in the Dungeon Hub. There are four dungeon doors in this room, each numbered one through four. From here, you can enter door 1, door 2, door 3, or door 4."
+        "description": "You are now in the Dungeon Hub. There are three dungeon doors in this room, each numbered one through three. From here, you can enter door 1, door 2, or door 3."
     }
 }
 
