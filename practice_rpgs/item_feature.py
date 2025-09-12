@@ -16,19 +16,28 @@ class Player:
         print(f"{self.name}: Health = {self.health}, Attack = {self.attack}, Defense = {self.defense}")
 
 # item stats
-class Item:
+class Equipment:
    def __init__(self, name, health_bonus, attack_bonus, defense_bonus):
       self.name = name
-      self.health = health_bonus
-      self.attack = attack_bonus
-      self.defense = defense_bonus
+      self.health_bonus = health_bonus
+      self.attack_bonus = attack_bonus
+      self.defense_bonus = defense_bonus
 
 # function to adjust the player stats with item bonuses
-def is_equipped(player, item):
-   while item.name in inventory:
-         player.health += item.health_bonus
-         player.attack += item.attack_bonus
-         player.defense += item.defense_bonus
+def equip(player, equipment):
+    print("You equip", equipment.name, "!")
+    equipped_gear.append(equipment)
+    rooms[currentRoom]["equipment"] = ""
+    print(equipment)
+
+    #while equipment.name in equipped_gear:
+    player.health += equipment.health_bonus
+    player.attack += equipment.attack_bonus
+    player.defense += equipment.defense_bonus
+      
+    print("\n" + "-" * 20)
+    player.print_status()
+    print("-" * 20 + "\n")
 
 def showInstructions():
   #print a main menu and the commands
@@ -44,6 +53,7 @@ def status():
   print("--------------")
   print(f"Current Room: {currentRoom}")
   print(f"Inventory: {inventory}")
+  print(f"Equipment: {equipped_gear}")
 
   if "description" in rooms[currentRoom]:
      room_description = rooms[currentRoom]["description"]
@@ -52,10 +62,16 @@ def status():
   if "item" in rooms[currentRoom] and rooms[currentRoom]["item"]:
     room_item = rooms[currentRoom]["item"]
     print(f"You see a {room_item}!")
+  
+  if "equipment" in rooms[currentRoom] and rooms[currentRoom]["equipment"]:
+     room_equipment = rooms[currentRoom]["equipment"]
+     equip(player, room_equipment)
 
   print("--------------")
 
 inventory = []
+
+equipped_gear = []
 
 currentRoom = "Dungeon Room One"
 
@@ -63,12 +79,14 @@ rooms = {
     # Beginning Dungeon
     "Dungeon Room One": {
         "door": "Dungeon Hub",
-        "item": Item("Shield", 0, 0, 3),
+        "item": "doll",
+        "equipment": Equipment("Shield", 0, 0, 3),
         "description": "You are now in Dungeon Room One. There is one door in this room."
     },
     "Dungeon Room Two": {
         "door": "Dungeon Hub",
-        "item": Item("Sword", 0, 3, 0),
+        "item": "apple pie",
+        "equipment": Equipment("Sword", 0, 3, 0),
         "description": "You are now in Dungeon Room Two. There is one door in this room."
     },
     "Dungeon Room Three": {
@@ -116,5 +134,6 @@ while player.is_alive():
       print(f"You are now in {currentRoom}!") 
     else: 
       print(f"You can't go {move[1]}!")
+
 
 
